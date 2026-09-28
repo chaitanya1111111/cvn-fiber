@@ -53,6 +53,7 @@ button,input,textarea,select { font:inherit; }
 .section {
   padding:88px 0;
 }
+.section[id] { scroll-margin-top:88px; }
 .section-soft { background:var(--green-50); }
 .section-sand { background:#faf8f3; }
 .section-title {
@@ -562,6 +563,17 @@ button,input,textarea,select { font:inherit; }
   color:#d3dfd7;
   max-width:760px;
 }
+.contact-details {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px 22px;
+  margin-top:18px;
+}
+.contact-details a {
+  color:#fff;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
 .cta .btn-primary {
   background:#fff;
   color:var(--green-950);
@@ -1038,14 +1050,18 @@ footer .brand-copy span { color:#a9b9af; }
   </div>
 </section>
 
-<section class="section cta">
-  <div class="container cta-box" id="contact">
+<section class="section cta" id="contact">
+  <div class="container cta-box">
     <div>
-      <h2>Interested in working with CVN Fiber?</h2>
+      <span class="eyebrow" style="color:#c4dccb;">Contact</span>
+      <h2>Let's talk about your requirements.</h2>
       <p>
-        Talk to us about banana fiber, sustainable products, industry applications,
-        samples or collaboration opportunities.
+        Reach CVN Fiber for product enquiries, samples, industry applications or collaboration.
       </p>
+      <div class="contact-details">
+        <a href="mailto:info@cvnfiber.com">info@cvnfiber.com</a>
+        <a href="tel:+918970185983">+91 89701 85983</a>
+      </div>
     </div>
     <button class="btn btn-primary js-open-enquiry" type="button">Get in Touch</button>
   </div>
@@ -1285,9 +1301,9 @@ footer .brand-copy span { color:#a9b9af; }
       </div>
       <div class="form-actions">
         <button class="btn btn-primary" type="submit">Submit Enquiry</button>
-        <span class="form-note">This demo form is ready to connect to your email, CRM or backend.</span>
+        <span class="form-note">Submitting opens your email app with the enquiry ready to send.</span>
       </div>
-      <div class="form-success" id="formSuccess" hidden>Thank you. Your enquiry has been captured.</div>
+      <div class="form-success" id="formSuccess" role="status" hidden></div>
     </form>
   </div>
 </div>
@@ -1336,8 +1352,15 @@ footer .brand-copy span { color:#a9b9af; }
   if(form){
     form.addEventListener('submit', e => {
       e.preventDefault();
+      const data = new FormData(form);
+      const name = data.get('name');
+      const subject = encodeURIComponent(`Website enquiry from ${name}`);
+      const body = encodeURIComponent([...data.entries()]
+        .map(([key, value]) => `${key}: ${value}`)
+        .join('\n'));
+      window.location.href = `mailto:info@cvnfiber.com?subject=${subject}&body=${body}`;
+      success.textContent = 'Your email app should open with the enquiry ready to send.';
       success.hidden = false;
-      form.querySelector('button[type="submit"]').disabled = true;
     });
   }
 })();
