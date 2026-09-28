@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    {
+      "source": "/CVN_Fiber_Website_Final_With_About_Link.html",
+      "destination": "/",
+      "statusCode": 308
+    },
+    {
+      "source": "/CVN_Fiber_Website_Final_With_About_Link",
+      "destination": "/",
+      "statusCode": 308
+    },
+    {
+      "source": "/404",
+      "destination": "/",
+      "statusCode": 308
+    }
+  ]
+}
