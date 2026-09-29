@@ -1670,6 +1670,18 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   });
 });
+
+// Deep links (e.g. site.com/#products from the About page): re-align
+// to the target section once the full page and its images have loaded.
+(function(){
+  var hash = window.location.hash;
+  if (!hash || hash.length <= 1) return;
+  var el = document.getElementById(decodeURIComponent(hash.slice(1)));
+  if (!el) return;
+  function go(){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  if (document.readyState === 'complete') { go(); }
+  else { window.addEventListener('load', go); }
+})();
 </script>
 
 
