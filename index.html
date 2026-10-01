@@ -1755,7 +1755,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       </div>
       <div class="form-actions">
         <button class="btn btn-primary" type="submit">Submit Enquiry</button>
-        <span class="form-note">This demo form is ready to connect to your email, CRM or backend.</span>
+        <span class="form-note">We usually reply within 1–2 business days.</span>
       </div>
       <div class="form-success" id="formSuccess" hidden>
         Thank you. Your enquiry has been captured.
@@ -1811,10 +1811,29 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 
   if(form){
-    form.addEventListener('submit', e => {
+    // PASTE your Google Apps Script Web App URL here (ends with /exec)
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxqXBf8oWQuwfEBymFTNiud0GqZraBPQP3MW5uXjiVTvA-D2UrQCHYiGpLiNxI7bDAX/exec';
+
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      success.hidden = false;
-      form.querySelector('button[type="submit"]').disabled = true;
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+      try {
+        await fetch(SHEET_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: new URLSearchParams(new FormData(form))
+        });
+        success.textContent = 'Thank you. Your enquiry has been captured.';
+        success.hidden = false;
+        form.reset();
+      } catch (err) {
+        success.textContent = 'Sorry, something went wrong. Please try again.';
+        success.hidden = false;
+        btn.disabled = false;
+      }
+      btn.textContent = 'Submit Enquiry';
     });
   }
 })();
