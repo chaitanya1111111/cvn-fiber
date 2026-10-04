@@ -2601,7 +2601,7 @@ button,input,textarea,select { font:inherit; }
         </label>
         <label>
           <span>Mobile Number *</span>
-          <input type="tel" id="custPhone" name="phone" required inputmode="tel" autocomplete="tel" pattern="[+]?[0-9\s().-]{7,20}" title="Enter a valid mobile number with 7 to 15 digits." placeholder="+91 98765 43210">
+          <input type="tel" id="custPhone" name="phone" required inputmode="tel" autocomplete="tel" pattern="\+?[0-9\s\(\)\.\-]{7,20}" title="Enter a valid mobile number with 7 to 15 digits." placeholder="+91 98765 43210">
         </label>
         <label>
           <span>Country</span>
@@ -2759,7 +2759,7 @@ button,input,textarea,select { font:inherit; }
 
   if (form) {
     // PASTE your Google Apps Script Web App URL here (ends with /exec)
-    var SHEET_URL = 'https://script.google.com/macros/s/AKfycbx_MPclVTrwG2z0HyX2PZnK0mmJ3eUl0IeMrASkV8H-uFW2AhT0jl3ynmKx3HryNAMS/exec';
+    var SHEET_URL = 'https://script.google.com/macros/s/AKfycbw415CMi-sphtr-SoASWNkWfQynXBB8GHJyz-SziaDwDVbDCwqKHuqe0WAKk3rFfZLd/exec';
     var phoneInput = form.elements.phone;
     var submitInProgress = false;
 
@@ -2785,24 +2785,16 @@ button,input,textarea,select { font:inherit; }
       var btn = document.getElementById('submitBtn');
       btn.disabled = true;
       btn.textContent = 'Sending...';
+      var formData = new FormData(form);
+      formData.set('requirement', formData.get('message') || '');
       try {
         await fetch(SHEET_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
+            'Content-Type': 'application/x-www-form-urlencoded'
           },
-          body: JSON.stringify({
-            name: form.elements.name.value.trim(),
-            company: form.elements.company.value.trim(),
-            email: form.elements.email.value.trim(),
-            phone: phoneInput.value.trim(),
-            country: form.elements.country.value.trim(),
-            application: form.elements.application.value,
-            grade: form.elements.grade.value,
-            quantity: form.elements.quantity.value.trim(),
-            message: form.elements.message.value.trim()
-          })
+          body: new URLSearchParams(formData).toString()
         });
         success.textContent = 'Thank you! Your enquiry has been received and a confirmation email has been sent.';
         success.hidden = false;
