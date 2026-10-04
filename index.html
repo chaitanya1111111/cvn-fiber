@@ -2588,11 +2588,15 @@ button,input,textarea,select { font:inherit; }
     <form class="enquiry-form" id="enquiryForm">
       <div class="form-grid">
         <label>
-          <span>Your Name *</span>
-          <input type="text" id="custName" name="name" required placeholder="e.g. John Doe">
+          <span>Name *</span>
+          <input type="text" id="custName" name="name" required placeholder="Your name">
         </label>
         <label>
-          <span>Work Email *</span>
+          <span>Company *</span>
+          <input type="text" id="custCompany" name="company" required placeholder="Company name">
+        </label>
+        <label>
+          <span>Email *</span>
           <input type="email" id="custEmail" name="email" required placeholder="name@company.com">
         </label>
         <label>
@@ -2600,27 +2604,42 @@ button,input,textarea,select { font:inherit; }
           <input type="tel" id="custPhone" name="phone" required inputmode="tel" autocomplete="tel" pattern="[+]?[0-9\s().-]{7,20}" title="Enter a valid mobile number with 7 to 15 digits." placeholder="+91 98765 43210">
         </label>
         <label>
-          <span>Application</span>
-          <select id="custApp" name="application">
-            <option value="Textile">Textile & Apparel</option>
-            <option value="Paper">Paper & Packaging</option>
-            <option value="Rope">Rope & Cordage</option>
-            <option value="Composites">Composites & Automotive</option>
-            <option value="Handicraft">Handicrafts</option>
-            <option value="Other">Other</option>
+          <span>Country</span>
+          <input type="text" id="custCountry" name="country" placeholder="Country">
+        </label>
+        <label>
+          <span>Application / Industry *</span>
+          <select id="custApp" name="application" required>
+            <option value="">Select</option>
+            <option>Textile</option>
+            <option>Paper</option>
+            <option>Pharmaceutical</option>
+            <option>Handicraft & Eco-Products</option>
+            <option>Biocompost</option>
+            <option>Rope</option>
+            <option>Other</option>
           </select>
         </label>
         <label>
           <span>Product / Grade</span>
           <select id="custGrade" name="grade">
-            <option value="Uncombed White Fiber">Uncombed White Fiber</option>
-            <option value="Fine Combed Natural Fiber">Fine Combed Natural Fiber</option>
-            <option value="Dark Coarse Industrial Grade">Dark Coarse Industrial Grade</option>
+            <option value="">Select</option>
+            <option>Uncombed White Fiber</option>
+            <option>Uncombed Brown Fiber</option>
+            <option>Clean & Combed Fiber</option>
+            <option>Banana Pseudostem Sap</option>
+            <option>Vermicompost</option>
+            <option>Banana Stem Core</option>
+            <option>Not sure</option>
           </select>
         </label>
+        <label>
+          <span>Approx. Quantity</span>
+          <input type="text" id="custQty" name="quantity" placeholder="e.g. 100 kg / month">
+        </label>
         <label class="full">
-          <span>Estimated Monthly Quantity</span>
-          <input type="text" id="custQty" name="quantity" placeholder="e.g. 500 kg / month">
+          <span>Requirement</span>
+          <textarea id="custMessage" name="message" rows="4" placeholder="Tell us about your intended use, specifications or sample requirement"></textarea>
         </label>
       </div>
       <div class="form-actions">
@@ -2775,11 +2794,14 @@ button,input,textarea,select { font:inherit; }
           },
           body: JSON.stringify({
             name: form.elements.name.value.trim(),
+            company: form.elements.company.value.trim(),
             email: form.elements.email.value.trim(),
             phone: phoneInput.value.trim(),
+            country: form.elements.country.value.trim(),
             application: form.elements.application.value,
             grade: form.elements.grade.value,
-            quantity: form.elements.quantity.value.trim()
+            quantity: form.elements.quantity.value.trim(),
+            message: form.elements.message.value.trim()
           })
         });
         success.textContent = 'Thank you! Your enquiry has been received and a confirmation email has been sent.';
